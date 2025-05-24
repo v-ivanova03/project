@@ -8,7 +8,7 @@ public class SaleItem implements Serializable {
     private double unitPrice;
     private double totalPrice;
 
-    public SaleItem(Product product, int quantity, double unitPrice, double totalPrice) {
+    public SaleItem(Product product, int quantity, double unitPrice) {
         this.product = product;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
@@ -51,5 +51,4 @@ public class SaleItem implements Serializable {
     public String toString() {
         return product.getName() + " x" + quantity + " = " + totalPrice;
     }
-
 }
