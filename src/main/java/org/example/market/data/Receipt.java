@@ -12,7 +12,7 @@ public class Receipt implements Serializable {
     private List<SaleItem> items;
     private double total;
 
-    public Receipt(Cashier cashier, List<SaleItem> itmes) {
+    public Receipt(Cashier cashier, List<SaleItem> items) {
         this.number = ++counter;
         this.cashier = cashier;
         this.dateTime = LocalDateTime.now();

@@ -1,0 +1,6 @@
+Receipt #1
+Cashier: Maria Ivanova
+Date: 2025-05-26T15:01:54.890765
+Milk x2 = 2.88
+Detergent x1 = 3.4299999999999993
+Total: 6.309999999999999

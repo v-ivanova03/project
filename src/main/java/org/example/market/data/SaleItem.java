@@ -12,7 +12,7 @@ public class SaleItem implements Serializable {
         this.product = product;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
-        this.totalPrice = totalPrice;
+        this.totalPrice = unitPrice * quantity;
     }
 
     public Product getProduct() {

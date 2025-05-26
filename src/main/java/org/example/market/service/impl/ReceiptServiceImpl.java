@@ -11,13 +11,15 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public void saveToFile(Receipt receipt) {
+        new File(TXT_FOLDER).mkdirs();
         String filename = TXT_FOLDER + "receipt_" + receipt.getNumber() + ".txt";
-        try(FileWriter writer = new FileWriter(filename)) {
+        try (FileWriter writer = new FileWriter(filename)) {
             writer.write(receipt.toString());
-        }catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Error saving receipt: " + filename);
         }
     }
+
 
     @Override
     public String readFromFile(int number) {
@@ -36,13 +38,15 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public void serializeReceipt(Receipt receipt) {
+        new File(SER_FOLDER).mkdirs();
         String fileName = SER_FOLDER + "receipt_" + receipt.getNumber() + ".dat";
-        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
             out.writeObject(receipt);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Error serialization receipt: " + fileName);
         }
     }
+
 
     @Override
     public Receipt deserializeReceipt(int number) {
