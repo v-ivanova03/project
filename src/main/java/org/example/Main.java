@@ -22,16 +22,25 @@ public class Main {
         store.addCashier(cashier);
         store.addCashRegister(register);
 
+        Cashier cashier2 = new Cashier("C01", "Viktoria Ivanova", 1300);
+        CashRegister register2 = new CashRegister("R01", cashier2);
+        store.addCashRegister(register2);
+        store.addCashier(cashier2);
+
         // Loading products
         Product bread = new FoodProduct("F10", "Whole Wheat Bread", 0.80, LocalDate.now().plusDays(4), 20);
         Product juice = new FoodProduct("F11", "Orange Juice", 1.50, LocalDate.now().plusDays(6), 15);
         Product shampoo = new NonFoodProduct("NF20", "Herbal Shampoo", 5.20, LocalDate.now().plusDays(365), 8);
         Product expiredMeat = new FoodProduct("F99", "Expired Sausage", 3.90, LocalDate.now().minusDays(2), 5);
+        Product cheese = new FoodProduct("P04", "Cheese", 2.5, LocalDate.now().plusDays(7), 8);
+        Product cocaCola = new NonFoodProduct("P35", "Coca-Cola", 1.8, LocalDate.now().plusDays(87), 10);
 
         store.addProduct(bread);
         store.addProduct(juice);
         store.addProduct(shampoo);
         store.addProduct(expiredMeat);
+        store.addProduct(cheese);
+        store.addProduct(cocaCola);
 
         // Shopping
         Map<String, Integer> cart = new HashMap<>();
@@ -40,13 +49,20 @@ public class Main {
         cart.put("NF20", 1); // Shampoo
         cart.put("F99", 2); // Expired – will be ignored
 
+        Map<String, Integer> cart2 = new HashMap<>();
+        cart2.put("P04", 3); // Cheese
+        cart2.put("P35", 2); // Soap
+
         try {
             Receipt receipt = store.sell(cart, register);
             System.out.println("\nNote issued:");
             System.out.println(receipt);
+            Receipt receipt2 = store.sell(cart2, register2);
+            System.out.println(receipt2);
 
             // Save to text file
             receiptService.saveToFile(receipt);
+            receiptService.saveToFile(receipt2);
 
             // Reading from a text file
             System.out.println("\nText file content:");
@@ -54,6 +70,7 @@ public class Main {
 
             // Serialization and deserialization
             receiptService.serializeReceipt(receipt);
+            receiptService.serializeReceipt(receipt2);
             System.out.println("\nDeserialized receipt:");
             Receipt restored = receiptService.deserializeReceipt(receipt.getNumber());
             System.out.println(restored);
