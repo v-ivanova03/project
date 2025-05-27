@@ -57,7 +57,7 @@ public class Main {
             System.err.println("Selling error: " + e.getMessage());
         }
 
-        // Статистика
+        // Statistic
         System.out.println("\nStore report:");
         System.out.println("Total revenue: " + store.getTotalRevenue());
         System.out.println("Salary expenses: " + store.getTotalSalaryExpenses());
