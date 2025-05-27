@@ -18,13 +18,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StoreServiceTest {
     private StoreService store;
-    private Cashier cashier;
+    private CashRegister register;
 
     @BeforeEach
     public void setUp() {
         store = new StoreServiceImpl();
-        cashier = new Cashier("C01", "Test Cashier", 1200);
+        Cashier cashier = new Cashier("C01", "Test Cashier", 1000);
+        register = new CashRegister("R01", cashier);
         store.addCashier(cashier);
+        store.addCashRegister(register);
     }
 
     @Test
@@ -34,12 +36,13 @@ class StoreServiceTest {
         Map<String, Integer> cart = new HashMap<>();
         cart.put("F1", 2);
 
-        Receipt receipt = store.sell(cart, cashier);
+        Receipt receipt = store.sell(cart, register);
 
         assertNotNull(receipt);
         assertEquals(1, receipt.getItems().size());
         assertTrue(receipt.getTotal() > 0);
     }
+
 
     @Test
     public void testInsufficientQuantityException() {
@@ -47,10 +50,10 @@ class StoreServiceTest {
         store.addProduct(yogurt);
 
         Map<String, Integer> cart = new HashMap<>();
-        cart.put("F2", 5);
+        cart.put("F2", 5); // more than available
 
         assertThrows(InsufficientQuantityException.class, () -> {
-            store.sell(cart, cashier);
+            store.sell(cart, register);
         });
     }
 
@@ -62,8 +65,20 @@ class StoreServiceTest {
         Map<String, Integer> cart = new HashMap<>();
         cart.put("F3", 2);
 
-        Receipt receipt = store.sell(cart, cashier);
+        Receipt receipt = store.sell(cart, register);
         assertEquals(0, receipt.getItems().size());
-        assertEquals(0, receipt.getTotal());
+        assertEquals(0.0, receipt.getTotal(), 0.001);
+    }
+
+    @Test
+    void testAddCashRegister() {
+        Cashier cashier = new Cashier("C02", "Anna Petrova", 1100);
+        CashRegister reg = new CashRegister("R02", cashier);
+        store.addCashier(cashier);
+        store.addCashRegister(reg);
+
+        assertDoesNotThrow(() -> {
+            store.sell(new HashMap<>(), reg);
+        });
     }
 }
