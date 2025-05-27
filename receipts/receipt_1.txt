@@ -1,6 +1,7 @@
 Receipt #1
-Cashier: Maria Ivanova
-Date: 2025-05-26T15:06:27.720331700
-Milk x2 = 2.88
-Detergent x1 = 3.4299999999999993
-Total: 6.309999999999999
+Cashier: Borislav Ivanov
+Date: 2025-05-27T17:02:39.309329200
+Herbal Shampoo x1 = 7.279999999999999
+Whole Wheat Bread x3 = 2.88
+Orange Juice x2 = 3.5999999999999996
+Total: 13.759999999999998

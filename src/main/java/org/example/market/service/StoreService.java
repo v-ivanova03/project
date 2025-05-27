@@ -1,5 +1,6 @@
 package org.example.market.service;
 
+import org.example.market.data.CashRegister;
 import org.example.market.data.Cashier;
 import org.example.market.data.Product;
 import org.example.market.data.Receipt;
@@ -11,7 +12,8 @@ import java.util.Map;
 public interface StoreService {
     void addProduct(Product product);
     void addCashier(Cashier cashier);
-    Receipt sell(Map<String, Integer> shoppingList, Cashier cashier) throws InsufficientQuantityException;
+    void addCashRegister(CashRegister register);
+    Receipt sell(Map<String, Integer> shoppingList, CashRegister register) throws InsufficientQuantityException;
     double getTotalRevenue();
     double getTotalSalaryExpenses();
     double getProfit();

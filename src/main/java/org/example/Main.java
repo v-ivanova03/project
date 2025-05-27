@@ -17,26 +17,31 @@ public class Main {
         ReceiptService receiptService = new ReceiptServiceImpl();
 
         // Add cashier
-        Cashier cashier = new Cashier("C01", "Maria Ivanova", 1200);
+        Cashier cashier = new Cashier("C02", "Borislav Ivanov", 1350);
+        CashRegister register = new CashRegister("R02", cashier);
         store.addCashier(cashier);
+        store.addCashRegister(register);
 
         // Loading products
-        Product milk = new FoodProduct("P01", "Milk", 1.2, LocalDate.now().plusDays(5), 10);
-        Product detergent = new NonFoodProduct("P02", "Detergent", 3.5, LocalDate.now().plusDays(2), 5);
-        Product expired = new FoodProduct("P03", "Croissant", 1.0, LocalDate.now().minusDays(1), 4);
+        Product bread = new FoodProduct("F10", "Whole Wheat Bread", 0.80, LocalDate.now().plusDays(4), 20);
+        Product juice = new FoodProduct("F11", "Orange Juice", 1.50, LocalDate.now().plusDays(6), 15);
+        Product shampoo = new NonFoodProduct("NF20", "Herbal Shampoo", 5.20, LocalDate.now().plusDays(365), 8);
+        Product expiredMeat = new FoodProduct("F99", "Expired Sausage", 3.90, LocalDate.now().minusDays(2), 5);
 
-        store.addProduct(milk);
-        store.addProduct(detergent);
-        store.addProduct(expired);
+        store.addProduct(bread);
+        store.addProduct(juice);
+        store.addProduct(shampoo);
+        store.addProduct(expiredMeat);
 
         // Shopping
         Map<String, Integer> cart = new HashMap<>();
-        cart.put("P01", 2); // Milk
-        cart.put("P02", 1); // Detergent
-        cart.put("P03", 1); // Expired product (will be skipped)
+        cart.put("F10", 3); // Bread
+        cart.put("F11", 2); // Juice
+        cart.put("NF20", 1); // Shampoo
+        cart.put("F99", 2); // Expired – will be ignored
 
         try {
-            Receipt receipt = store.sell(cart, cashier);
+            Receipt receipt = store.sell(cart, register);
             System.out.println("\nNote issued:");
             System.out.println(receipt);
 

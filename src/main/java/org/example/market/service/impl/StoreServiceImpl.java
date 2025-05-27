@@ -1,9 +1,6 @@
 package org.example.market.service.impl;
 
-import org.example.market.data.Cashier;
-import org.example.market.data.Product;
-import org.example.market.data.Receipt;
-import org.example.market.data.SaleItem;
+import org.example.market.data.*;
 import org.example.market.exception.InsufficientQuantityException;
 import org.example.market.service.StoreService;
 
@@ -16,6 +13,7 @@ public class StoreServiceImpl implements StoreService {
     private final List<Product> stock = new ArrayList<>();
     private final List<Receipt> receipts = new ArrayList<>();
     private final List<Cashier> cashiers = new ArrayList<>();
+    private final List<CashRegister> cashRegisters = new ArrayList<>();
     private double deliveryCost = 0;
 
     private final int discountThreshold = 3;
@@ -33,26 +31,37 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Receipt sell(Map<String, Integer> shoppingList, Cashier cashier) throws InsufficientQuantityException{
-       List<SaleItem> saleItems = new ArrayList<>();
-       LocalDate today = LocalDate.now();
-       for (Map.Entry<String, Integer> entry : shoppingList.entrySet()) {
-           Product product = stock.stream()
-                   .filter(p-> p.getId().equals(entry.getKey()))
-                   .findFirst()
-                   .orElseThrow(()-> new RuntimeException("Product with ID " + entry.getKey() + " not found"));
-           if(product.isExpired(today)) continue;
-           int requested = entry.getValue();
-           if(product.getQuantity() < requested) {
-               throw new InsufficientQuantityException(product.getName(), requested, product.getQuantity());
-           }
-           double unitPrice = product.getSellingPrice(today, discountThreshold, discountPercentage);
-           saleItems.add(new SaleItem(product, requested, unitPrice));
-           product.setQuantity(product.getQuantity() - requested);
-       }
-       Receipt receipt = new Receipt(cashier, saleItems);
-       receipts.add(receipt);
-       return receipt;
+    public void addCashRegister(CashRegister register) {
+        cashRegisters.add(register);
+    }
+
+    @Override
+    public Receipt sell(Map<String, Integer> shoppingList, CashRegister register) throws InsufficientQuantityException {
+        List<SaleItem> saleItems = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+        Cashier cashier = register.getCashier();
+
+        for (Map.Entry<String, Integer> entry : shoppingList.entrySet()) {
+            Product product = stock.stream()
+                    .filter(p -> p.getId().equals(entry.getKey()))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Product with ID " + entry.getKey() + " not found"));
+
+            if (product.isExpired(today)) continue;
+
+            int requested = entry.getValue();
+            if (product.getQuantity() < requested) {
+                throw new InsufficientQuantityException(product.getName(), requested, product.getQuantity());
+            }
+
+            double unitPrice = product.getSellingPrice(today, discountThreshold, discountPercentage);
+            saleItems.add(new SaleItem(product, requested, unitPrice));
+            product.setQuantity(product.getQuantity() - requested);
+        }
+
+        Receipt receipt = new Receipt(cashier, saleItems);
+        receipts.add(receipt);
+        return receipt;
     }
 
     @Override
