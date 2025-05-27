@@ -1,6 +1,6 @@
 Receipt #2
 Cashier: Viktoria Ivanova
-Date: 2025-05-27T17:54:40.522255200
+Date: 2025-05-27 18:06:48
 Coca-Cola x2 = 5.04
 Cheese x3 = 9.0
 Total: 14.04

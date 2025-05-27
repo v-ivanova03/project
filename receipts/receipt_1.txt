@@ -1,6 +1,6 @@
 Receipt #1
 Cashier: Borislav Ivanov
-Date: 2025-05-27T17:54:40.480083800
+Date: 2025-05-27 18:06:48
 Herbal Shampoo x1 = 7.279999999999999
 Whole Wheat Bread x3 = 2.88
 Orange Juice x2 = 3.5999999999999996
