@@ -51,7 +51,7 @@ public class Main {
 
         Map<String, Integer> cart2 = new HashMap<>();
         cart2.put("P04", 3); // Cheese
-        cart2.put("P35", 2); // Soap
+        cart2.put("P35", 2); // Coca-Cola
 
         try {
             Receipt receipt = store.sell(cart, register);
