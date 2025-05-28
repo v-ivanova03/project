@@ -85,5 +85,16 @@ public class Main {
         System.out.println("Salary expenses: " + store.getTotalSalaryExpenses());
         System.out.println("Profit: " + store.getProfit());
         System.out.println("Issued receipts: " + store.getReceiptCount());
+
+        // Display all issued receipts
+        System.out.println("\nAll issued receipts:");
+        for (Receipt r : store.getReceipts()) {
+            System.out.println("Receipt #" + r.getNumber() + " issued by " + r.getCashier().getName() + " on " + r.getDateTime());
+            for (SaleItem item : r.getItems()) {
+                System.out.println(" - " + item);
+            }
+            System.out.println("Total: " + r.getTotal());
+            System.out.println("----------------------");
+        }
     }
 }
